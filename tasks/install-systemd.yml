@@ -11,12 +11,36 @@
         group: elasticsearch
         state: present
 
+-   name: elasticsearch directories
+    file:
+        path: "{{loop_elasticsearch_paths}}"
+        state: directory
+        owner: elasticsearch
+        group: elasticsearch
+        mode: 0755
+    with_items:
+    -   /etc/elasticsearch
+    -   /var/lib/elasticsearch
+    -   /var/log/elasticsearch
+    -   /var/run/elasticsearch
+    -   /var/opt/elasticsearch
+    loop_control:
+        loop_var: loop_elasticsearch_paths
+
+-   name: download package
+    get_url:
+        url: "{{elasticsearch_package_url}}"
+        dest: "/opt/elasticsearch-{{elasticsearch_version}}.tar.gz"
+        owner: root
+        group: elasticsearch
+        mode: 0644
+
 -   name: download, extract package
     unarchive:
-        src: "{{elasticsearch_package_url}}"
+        src: "/opt/elasticsearch-{{elasticsearch_version}}.tar.gz"
         remote_src: true
         dest: /opt/
-        creates: "{{elasticsearch_dir}}"
+        #creates: "{{elasticsearch_dir}}"
         owner: root
         group: elasticsearch
 
@@ -44,22 +68,6 @@
         force: yes
         owner: root
         group: elasticsearch
-
--   name: configuration directories
-    file:
-        path: "{{loop_elasticsearch_paths}}"
-        state: directory
-        owner: elasticsearch
-        group: elasticsearch
-        mode: 0755
-    with_items:
-    -   /etc/elasticsearch
-    -   /var/lib/elasticsearch
-    -   /var/log/elasticsearch
-    -   /var/run/elasticsearch
-    -   /var/opt/elasticsearch
-    loop_control:
-        loop_var: loop_elasticsearch_paths
 
 -   name: template systemd service file
     template:
