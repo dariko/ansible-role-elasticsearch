@@ -4,4 +4,4 @@ discovery.zen.minimum_master_nodes: {{ (groups[elasticsearch_cluster_group]|leng
 cluster.name: {{elasticsearch_cluster_name}}
 network.host: {{ansible_default_ipv4.address}}
 network.bind_host: {{elasticsearch_bind_host}}
-{{es_cluster_additional_config}}
+{{elasticsearch_additional_config}}
