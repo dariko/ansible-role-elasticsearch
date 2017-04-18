@@ -1,0 +1,7 @@
+node.name: {{inventory_hostname}}
+discovery.zen.ping.unicast.hosts: {{ groups[es_cluster_group]|to_json }}
+discovery.zen.minimum_master_nodes: {{ (groups[es_cluster_group]|length) // 2 + 1  }}
+cluster.name: {{elasticsearch_cluster_name}}
+network.host: {{ansible_host}}
+network.bind_host: {{es_cluster_bind_host}}
+{{es_cluster_additional_config}}

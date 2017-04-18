@@ -1,0 +1,11 @@
+elasticsearch_version: "5.3.0"
+elasticsearch_vm_max_map_count: 262144
+elasticsearch_package_url: "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-{{elasticsearch_version}}.tar.gz"
+elasticsearch_dir: "/opt/elasticsearch-{{elasticsearch_version}}"
+elasticsearch_uid: 1901
+elasticsearch_gid: 1901
+elasticsearch_jvm_options: |
+    -Xms4g
+    -Xmx4g
+elasticsearch_cluster_name: elasticsearch
+elasticsearch_cluster_additional_config: ""

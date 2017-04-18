@@ -1,0 +1,8 @@
+-   include: "{{item}}"
+    with_first_found:
+    -   "install-{{ ansible_distribution }}-{{ ansible_distribution_major_version}}.yml"
+    -   "install-{{ ansible_distribution }}-{{ ansible_distribution_version}}.yml"
+    -   "install-{{ ansible_distribution }}.yml"
+
+-   include: configure.yml
+    when: elasticsearch_cluster_group is defined
