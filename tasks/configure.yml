@@ -3,7 +3,7 @@
         dest: /etc/hosts
         line: "{{hostvars[item].ansible_default_ipv4.address}} {{item}}"
         regexp: "^ *{{hostvars[item].ansible_default_ipv4.address}}"
-    with_items: "{{ groups[es_cluster_group] }}"
+    with_items: "{{ groups[elasticsearch_cluster_group] }}"
     notify: restart elasticsearch cluster
   
 -   name: template configuration

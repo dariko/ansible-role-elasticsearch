@@ -1,6 +1,6 @@
 -   name: install required packages
-    yum:
-        name: java-1.8.0-openjdk
+    apt:
+        name: openjdk-8-jre-headless
         state: installed
     notify: restart elasticsearch
 

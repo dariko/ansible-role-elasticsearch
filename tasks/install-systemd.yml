@@ -1,0 +1,75 @@
+-   name: elasticsearch group
+    group:
+        name: elasticsearch
+        gid: "{{elasticsearch_gid}}"
+        state: present
+
+-   name: elasticsearch user
+    user:
+        name: elasticsearch
+        uid: "{{elasticsearch_uid}}"
+        group: elasticsearch
+        state: present
+
+-   name: download, extract package
+    unarchive:
+        src: "{{elasticsearch_package_url}}"
+        remote_src: true
+        dest: /opt/
+        creates: "{{elasticsearch_dir}}"
+        owner: root
+        group: elasticsearch
+
+-   name: configure vm.max_map_count
+    sysctl:
+        name: vm.max_map_count
+        value: "{{elasticsearch_vm_max_map_count}}"
+        reload: yes
+    notify: restart elasticsearch
+
+-   name: jvm.options
+    copy:
+        content: "{{elasticsearch_jvm_options}}"
+        dest: /etc/elasticsearch/jvm.options
+        owner: root
+        group: elasticsearch
+        mode: 0644
+    register: out_elasticsearch_jvm_options
+
+-   name: link log4j2.properties 
+    file:
+        src: "{{elasticsearch_dir}}/config/log4j2.properties"
+        path: /etc/elasticsearch/log4j2.properties
+        state: link
+        force: yes
+        owner: root
+        group: elasticsearch
+
+-   name: configuration directories
+    file:
+        path: "{{loop_elasticsearch_paths}}"
+        state: directory
+        owner: elasticsearch
+        group: elasticsearch
+        mode: 0755
+    with_items:
+    -   /etc/elasticsearch
+    -   /var/lib/elasticsearch
+    -   /var/log/elasticsearch
+    -   /var/run/elasticsearch
+    -   /var/opt/elasticsearch
+    loop_control:
+        loop_var: loop_elasticsearch_paths
+
+-   name: template systemd service file
+    template:
+        src: elasticsearch.service.j2
+        dest: /etc/systemd/system/elasticsearch.service
+        owner: root
+        group: root
+        mode: 0644
+    register: out_elasticsearch_template_service
+
+-   name: reload systemd
+    command: systemctl daemon-reload
+    when: out_elasticsearch_template_service.changed

@@ -9,3 +9,5 @@ elasticsearch_jvm_options: |
     -Xmx4g
 elasticsearch_cluster_name: elasticsearch
 elasticsearch_cluster_additional_config: ""
+elasticsearch_bind_host: "0.0.0.0"
+elasticsearch_additional_config: ""
