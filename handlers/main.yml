@@ -1,0 +1,8 @@
+-   name: restart elasticsearch
+    service:
+        name: elasticsearch
+        state: restarted
+    run_once: yes
+    delegate_to: "{{item}}"
+    with_items: "{{groups[elasticsearch_cluster_group]}}"
+    

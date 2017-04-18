@@ -4,13 +4,13 @@
         line: "{{hostvars[item].ansible_default_ipv4.address}} {{item}}"
         regexp: "^ *{{hostvars[item].ansible_default_ipv4.address}}"
     with_items: "{{ groups[elasticsearch_cluster_group] }}"
-    notify: restart elasticsearch cluster
+    notify: restart elasticsearch
   
 -   name: template configuration
     template:
         src: elasticsearch.yml.j2
         dest: /etc/elasticsearch/elasticsearch.yml
-    notify: restart elasticsearch cluster
+    notify: restart elasticsearch
 
 -   name: start service
     service:
