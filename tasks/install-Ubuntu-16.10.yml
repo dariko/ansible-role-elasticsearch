@@ -1,6 +1,6 @@
 -   name: install required packages
     apt:
-        name: openjdk-8-jre-headless
+        name: openjdk-8-jre-headless,jq
         state: installed
     notify: restart elasticsearch
 

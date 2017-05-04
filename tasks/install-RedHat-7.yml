@@ -1,6 +1,6 @@
 -   name: install required packages
     yum:
-        name: java-1.8.0-openjdk
+        name: java-1.8.0-openjdk,jq
         state: installed
     notify: restart elasticsearch
 

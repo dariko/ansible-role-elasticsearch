@@ -1,7 +1,5 @@
 -   name: restart elasticsearch
-    service:
-        name: elasticsearch
-        state: restarted
+    script: restart_and_wait_for_cluster_green.sh
     run_once: yes
     delegate_to: "{{item}}"
     with_items: "{{groups[elasticsearch_cluster_group]}}"
