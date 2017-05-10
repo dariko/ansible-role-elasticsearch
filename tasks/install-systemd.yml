@@ -59,6 +59,7 @@
         group: elasticsearch
         mode: 0644
     register: out_elasticsearch_jvm_options
+    notify: restart elasticsearch
 
 -   name: link log4j2.properties 
     file:
@@ -68,6 +69,7 @@
         force: yes
         owner: root
         group: elasticsearch
+    notify: restart elasticsearch
 
 -   name: template systemd service file
     template:
@@ -77,6 +79,7 @@
         group: root
         mode: 0644
     register: out_elasticsearch_template_service
+    notify: restart elasticsearch
 
 -   name: reload systemd
     command: systemctl daemon-reload
