@@ -22,7 +22,6 @@
     -   /etc/elasticsearch
     -   /var/lib/elasticsearch
     -   /var/log/elasticsearch
-    -   /var/run/elasticsearch
     -   /var/opt/elasticsearch
     loop_control:
         loop_var: loop_elasticsearch_paths

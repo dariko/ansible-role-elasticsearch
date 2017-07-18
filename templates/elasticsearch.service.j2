@@ -14,8 +14,10 @@ WorkingDirectory={{elasticsearch_dir}}
 
 User=elasticsearch
 Group=elasticsearch
+PermissionsStartOnly=true
 
-ExecStartPre={{elasticsearch_dir}}/bin/elasticsearch-systemd-pre-exec
+ExecStartPre=/bin/mkdir -p /var/run/elasticsearch
+ExecStartPre=/bin/chown elasticsearch:elasticsearch /var/run/elasticsearch
 
 ExecStart={{elasticsearch_dir}}/bin/elasticsearch \
                             -p ${PID_DIR}/elasticsearch.pid \
