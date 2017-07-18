@@ -3,4 +3,10 @@
     run_once: yes
     delegate_to: "{{item}}"
     with_items: "{{groups[elasticsearch_cluster_group]}}"
-    
+    when: "'elasticsearch_cluster_group' in vars"
+
+-   name: restart elasticsearch
+    service:
+        name: elasticsearch
+        state: restarted
+    when: "not 'elasticsearch_cluster_group' in vars"
